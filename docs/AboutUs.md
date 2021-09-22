@@ -21,15 +21,16 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
     * PLACEHOLDER.
     * PLACEHOLDER.
 
-### Jane Doe
+### Liu Tianyi
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/tianyi.png" width="200px"> resource to be updated
 
-[[github](http://github.com/johndoe)]
-[[portfolio](team/johndoe.md)]
+[[github](http://github.com/dannylty)]
+[[portfolio](team/tianyi.md)]
 
-* Role: Team Lead
-* Responsibilities: UI
+* Role: PLACEHOLDER
+* Responsibilities:
+    * PLACEHOLDER
 
 ### Johnny Doe
 
