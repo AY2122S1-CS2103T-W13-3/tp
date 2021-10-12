@@ -7,7 +7,6 @@ import java.util.List;
 import javafx.collections.ObservableList;
 import seedu.address.model.gameentry.GameEntry;
 import seedu.address.model.gameentry.UniqueGameEntryList;
-import seedu.address.model.gameentry.exceptions.DuplicateGameEntryException;
 
 public class GameBook implements ReadOnlyGameBook {
 
@@ -15,9 +14,6 @@ public class GameBook implements ReadOnlyGameBook {
 
     public GameBook() {}
 
-    /**
-     * Creates a {@code GameBook} with a {@code ReadOnlyGameBook}.
-     */
     public GameBook(ReadOnlyGameBook toBeCopied) {
         this();
         resetData(toBeCopied);
@@ -52,9 +48,6 @@ public class GameBook implements ReadOnlyGameBook {
      * The game entry must not already exist in the game book.
      */
     public void addGameEntry(GameEntry gameEntry) {
-        if (gameEntries.contains(gameEntry)) {
-            throw new DuplicateGameEntryException();
-        }
         gameEntries.add(gameEntry);
     }
 

@@ -7,5 +7,5 @@
       "y" : 100
     }
   },
-  "gameBookFilePath" : "gamebook.json"
+  "addressBookFilePath" : "addressbook.json"
 }

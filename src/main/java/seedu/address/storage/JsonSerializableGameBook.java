@@ -1,6 +1,5 @@
 package seedu.address.storage;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,8 +37,7 @@ class JsonSerializableGameBook {
      * @param source future changes to this will not affect the created {@code JsonSerializableGameBook}.
      */
     public JsonSerializableGameBook(ReadOnlyGameBook source) {
-        gameEntries.addAll(source.getGameEntryList().stream()
-                .map(JsonAdaptedGameEntry::new).collect(Collectors.toList()));
+        gameEntries.addAll(source.getGameEntryList().stream().map(JsonAdaptedGameEntry::new).collect(Collectors.toList()));
     }
 
     /**
@@ -47,7 +45,7 @@ class JsonSerializableGameBook {
      *
      * @throws IllegalValueException if there were any data constraints violated.
      */
-    public GameBook toModelType() throws IllegalValueException, ParseException {
+    public GameBook toModelType() throws IllegalValueException {
         GameBook gameBook = new GameBook();
         for (JsonAdaptedGameEntry jsonAdaptedGameEntry : gameEntries) {
             GameEntry gameEntry = jsonAdaptedGameEntry.toModelType();

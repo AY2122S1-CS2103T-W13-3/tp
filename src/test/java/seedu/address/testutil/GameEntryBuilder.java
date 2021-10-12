@@ -21,12 +21,12 @@ import seedu.address.model.util.SampleDataUtil;
  * A utility class to help with building GameEntry objects.
  */
 public class GameEntryBuilder {
-
+    ;
 
     public static final String DEFAULT_GAMETYPE = "Poker";
     public static final Double DEFAULT_STARTAMOUNT = 0.0;
     public static final Double DEFAULT_ENDAMOUNT = 100.0;
-    public static final Date DEFAULT_DATE = new Date(2021, 10, 10,10, 53);
+    public static final Date DEFAULT_DATE = new Date();
     public static final Integer DEFAULT_DURATION = 10;
     public static final String DEFAULT_LOCATION = "Marina Bay Sands";
 
@@ -78,15 +78,15 @@ public class GameEntryBuilder {
      *
      * @throws ParseException if the given {@startAmount} is invalid.
      */
-    public GameEntryBuilder withStartAmount(String startAmount) {
+    public GameEntryBuilder withStartAmount(String startAmount) throws ParseException {
         String trimmedStartAmount = startAmount.trim();
         Double amount;
         try {
             amount = Double.parseDouble(trimmedStartAmount);
-            this.startAmount = amount;
         } catch (NumberFormatException e) {
-            e.printStackTrace();
+            throw new ParseException(MESSAGE_INVALID_START_AMOUNT);
         }
+        this.startAmount = amount;
         return this;
     }
 
@@ -95,15 +95,15 @@ public class GameEntryBuilder {
      *
      * @throws ParseException if the given {@endAmount} is invalid.
      */
-    public GameEntryBuilder withEndAmount(String endAmount) {
+    public GameEntryBuilder withEndAmount(String endAmount) throws ParseException {
         String trimmedEndAmount = endAmount.trim();
         Double amount;
         try {
             amount = Double.parseDouble(trimmedEndAmount);
-            this.endAmount = amount;
         } catch (NumberFormatException e) {
-            e.printStackTrace();
+            throw new ParseException(MESSAGE_INVALID_END_AMOUNT);
         }
+        this.endAmount = amount;
         return this;
     }
 
@@ -112,7 +112,7 @@ public class GameEntryBuilder {
      *
      * @throws ParseException if the given {@code datePlayed} is invalid.
      */
-    public GameEntryBuilder withDatePlayed (String datePlayed) {
+    public GameEntryBuilder withDatePlayed (String datePlayed) throws ParseException {
         if (datePlayed.equals("")) {
             this.date = new DatePlayed();
             return this;
@@ -121,19 +121,20 @@ public class GameEntryBuilder {
         Date date;
         try {
             date = new SimpleDateFormat("dd/MM/yy HH:mm").parse(trimmedDatePlayed);
-            this.date = new DatePlayed(date, true);
+            this.date = new DatePlayed(date);
         } catch (java.text.ParseException e) {
-            try {
-                date = new SimpleDateFormat("dd/MM/yy").parse(trimmedDatePlayed);
-                this.date = new DatePlayed(date, false);
-            } catch (java.text.ParseException e1) {
-                date = null;
-            }
+            date = null;
+        }
+
+        try {
+            date = new SimpleDateFormat("dd/MM/yy").parse(trimmedDatePlayed);
+            this.date = new DatePlayed(date);
+        } catch (java.text.ParseException e) {
+            date = null;
         }
 
         if (date == null) {
-            // Test cases should not have this error
-            assert(false);
+            throw new ParseException(MESSAGE_INVALID_DATE);
         }
         return this;
     }
@@ -143,7 +144,7 @@ public class GameEntryBuilder {
      *
      * @throws ParseException if the given {@duration} is invalid.
      */
-    public GameEntryBuilder withDuration(String duration) {
+    public GameEntryBuilder withDuration(String duration) throws ParseException {
         if (duration.equals("")) {
             this.duration = Integer.MIN_VALUE;
             return this;
@@ -152,10 +153,10 @@ public class GameEntryBuilder {
         Integer durationInMinutes;
         try {
             durationInMinutes = Integer.parseInt(trimmedDuration);
-            this.duration = durationInMinutes;
         } catch (NumberFormatException e) {
-            e.printStackTrace();
+            throw new ParseException(MESSAGE_INVALID_DURATION);
         }
+        this.duration = durationInMinutes;
         return this;
     }
 

@@ -45,7 +45,7 @@ public interface Model {
     void setGameBookFilePath(Path gameBookFilePath);
 
     /**
-     * Replaces game book data with the data in {@code gameBook}.
+     * Replaces address book data with the data in {@code addressBook}.
      */
     void setGameBook(ReadOnlyGameBook gameBook);
 
@@ -53,34 +53,34 @@ public interface Model {
     ReadOnlyGameBook getGameBook();
 
     /**
-     * Returns true if a game entry with the same identity as {@code gameEntry} exists in the game book.
+     * Returns true if a person with the same identity as {@code person} exists in the address book.
      */
-    boolean hasGameEntry(GameEntry gameEntry);
+    boolean hasGameEntry(GameEntry GameEntry);
 
     /**
-     * Deletes the given game entry.
-     * The game entry must exist in the game book.
+     * Deletes the given person.
+     * The person must exist in the address book.
      */
     void deleteGameEntry(GameEntry target);
 
     /**
-     * Adds the given game entry.
-     * {@code gameEntry} must not already exist in the game book.
+     * Adds the given person.
+     * {@code person} must not already exist in the address book.
      */
-    void addGameEntry(GameEntry gameEntry);
+    void addGameEntry(GameEntry GameEntry);
 
     /**
-     * Replaces the given game entry {@code target} with {@code editedGameEntry}.
-     * {@code target} must exist in the game book.
-     * The identity of {@code editedGameEntry} must not be the same as another existing entry in the game book.
+     * Replaces the given person {@code target} with {@code editedPerson}.
+     * {@code target} must exist in the address book.
+     * The person identity of {@code editedPerson} must not be the same as another existing person in the address book.
      */
     void setGameEntry(GameEntry target, GameEntry editedGameEntry);
 
-    /** Returns an unmodifiable view of the filtered game entry list */
+    /** Returns an unmodifiable view of the filtered person list */
     ObservableList<GameEntry> getFilteredGameEntryList();
 
     /**
-     * Updates the filter of the filtered game entry list to filter by the given {@code predicate}.
+     * Updates the filter of the filtered person list to filter by the given {@code predicate}.
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredGameEntryList(Predicate<GameEntry> predicate);

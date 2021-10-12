@@ -15,14 +15,8 @@ public class GameTypeTest {
 
     @Test
     public void constructor_invalidAddress_throwsIllegalArgumentException() {
-        String invalidGameType1 = "";
-        assertThrows(IllegalArgumentException.class, () -> new GameType(invalidGameType1));
-
-        String invalidGameType2 = "                ";
-        assertThrows(IllegalArgumentException.class, () -> new GameType(invalidGameType2));
-
-        String invalidGameType3 = "  \n\n\n    ";
-        assertThrows(IllegalArgumentException.class, () -> new GameType(invalidGameType3));
+        String invalidGameType = "";
+        assertThrows(IllegalArgumentException.class, () -> new GameType(invalidGameType));
     }
 
     @Test

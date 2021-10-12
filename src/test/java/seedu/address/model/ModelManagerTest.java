@@ -65,35 +65,35 @@ public class ModelManagerTest {
     }
 
     @Test
-    public void setGameBookFilePath_nullPath_throwsNullPointerException() {
+    public void setAddressBookFilePath_nullPath_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> modelManager.setGameBookFilePath(null));
     }
 
     @Test
-    public void setGameBookFilePath_validPath_setsGameBookFilePath() {
+    public void setAddressBookFilePath_validPath_setsAddressBookFilePath() {
         Path path = Paths.get("address/book/file/path");
         modelManager.setGameBookFilePath(path);
         assertEquals(path, modelManager.getGameBookFilePath());
     }
 
     @Test
-    public void hasGameEntry_nullGameEntry_throwsNullPointerException() {
+    public void hasPerson_nullPerson_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> modelManager.hasGameEntry(null));
     }
 
     @Test
-    public void hasGameEntry_gameEntryNotInGameBook_returnsFalse() {
+    public void hasPerson_personNotInAddressBook_returnsFalse() {
         assertFalse(modelManager.hasGameEntry(POKER));
     }
 
     @Test
-    public void hasGameEntry_gameEntryInBook_returnsTrue() {
+    public void hasPerson_personInAddressBook_returnsTrue() {
         modelManager.addGameEntry(POKER);
         assertTrue(modelManager.hasGameEntry(POKER));
     }
 
     @Test
-    public void getFilteredGameEntryList_modifyList_throwsUnsupportedOperationException() {
+    public void getFilteredPersonList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, () -> modelManager.getFilteredGameEntryList().remove(0));
     }
 

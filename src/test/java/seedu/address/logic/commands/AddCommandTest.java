@@ -16,11 +16,11 @@ import org.junit.jupiter.api.Test;
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.model.GameBook;
+import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
-import seedu.address.model.ReadOnlyGameBook;
+import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyUserPrefs;
-import seedu.address.model.gameentry.GameEntry;
+import seedu.address.model.person.Person;
 
 import seedu.address.testutil.GameEntryBuilder;
 
@@ -28,55 +28,52 @@ import seedu.address.testutil.GameEntryBuilder;
 public class AddCommandTest {
 
     @Test
-    public void constructor_nullGameEntry_throwsNullPointerException() {
+    public void constructor_nullPerson_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> new AddCommand(null));
     }
 
     @Test
-    public void execute_gameEntryAcceptedByModel_addSuccessful() throws Exception {
-        ModelStubAcceptingGameEntryAdded modelStub = new ModelStubAcceptingGameEntryAdded();
-        GameEntry validGameEntry = new GameEntryBuilder().build();
+    public void execute_personAcceptedByModel_addSuccessful() throws Exception {
+        ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
+        Person validPerson = new GameEntryBuilder().build();
 
-        CommandResult commandResult = new AddCommand(validGameEntry).execute(modelStub);
+        CommandResult commandResult = new AddCommand(validPerson).execute(modelStub);
 
-        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, validGameEntry), commandResult.getFeedbackToUser());
-        assertEquals(Arrays.asList(validGameEntry), modelStub.gameEntriesAdded);
+        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, validPerson), commandResult.getFeedbackToUser());
+        assertEquals(Arrays.asList(validPerson), modelStub.personsAdded);
     }
 
-    // change if we're doing duplicate check using exact datetime
     @Test
-    public void execute_duplicateGameEntry_throwsCommandException() {
-        assertTrue(true);
-        // Person validPerson = new GameEntryBuilder().build();
-        // AddCommand addCommand = new AddCommand(validPerson);
-        // ModelStub modelStub = new ModelStubWithPerson(validPerson);
+    public void execute_duplicatePerson_throwsCommandException() {
+        Person validPerson = new GameEntryBuilder().build();
+        AddCommand addCommand = new AddCommand(validPerson);
+        ModelStub modelStub = new ModelStubWithPerson(validPerson);
 
-        // assertThrows(CommandException.class, AddCommand.MESSAGE_DUPLICATE_PERSON, () -> addCommand.execute(modelStub));
+        assertThrows(CommandException.class, AddCommand.MESSAGE_DUPLICATE_PERSON, () -> addCommand.execute(modelStub));
     }
-
 
     @Test
     public void equals() {
-        GameEntry blackjack = new GameEntryBuilder().withGameType("Blackjack").build();
-        GameEntry mahjong = new GameEntryBuilder().withGameType("Mahjong").build();
-        AddCommand addBlackjackCommand = new AddCommand(blackjack);
-        AddCommand addMahjongCommand = new AddCommand(mahjong);
+        Person alice = new GameEntryBuilder().withName("Alice").build();
+        Person bob = new GameEntryBuilder().withName("Bob").build();
+        AddCommand addAliceCommand = new AddCommand(alice);
+        AddCommand addBobCommand = new AddCommand(bob);
 
         // same object -> returns true
-        assertTrue(addBlackjackCommand.equals(addBlackjackCommand));
+        assertTrue(addAliceCommand.equals(addAliceCommand));
 
         // same values -> returns true
-        AddCommand addBlackjackCommandCopy = new AddCommand(blackjack);
-        assertTrue(addBlackjackCommand.equals(addBlackjackCommandCopy));
+        AddCommand addAliceCommandCopy = new AddCommand(alice);
+        assertTrue(addAliceCommand.equals(addAliceCommandCopy));
 
         // different types -> returns false
-        assertFalse(addBlackjackCommand.equals(1));
+        assertFalse(addAliceCommand.equals(1));
 
         // null -> returns false
-        assertFalse(addBlackjackCommand.equals(null));
+        assertFalse(addAliceCommand.equals(null));
 
         // different person -> returns false
-        assertFalse(addBlackjackCommand.equals(addMahjongCommand));
+        assertFalse(addAliceCommand.equals(addBobCommand));
     }
 
     /**
@@ -104,95 +101,95 @@ public class AddCommandTest {
         }
 
         @Override
-        public Path getGameBookFilePath() {
+        public Path getAddressBookFilePath() {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public void setGameBookFilePath(Path gameBookFilePath) {
+        public void setAddressBookFilePath(Path addressBookFilePath) {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public void addGameEntry(GameEntry GameEntry) {
+        public void addPerson(Person person) {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public void setGameBook(ReadOnlyGameBook gameBook) {
+        public void setAddressBook(ReadOnlyAddressBook newData) {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public ReadOnlyGameBook getGameBook() {
+        public ReadOnlyAddressBook getAddressBook() {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public boolean hasGameEntry(GameEntry gameEntry) {
+        public boolean hasPerson(Person person) {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public void deleteGameEntry(GameEntry target) {
+        public void deletePerson(Person target) {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public void setGameEntry(GameEntry target, GameEntry editedGameEntry) {
+        public void setPerson(Person target, Person editedPerson) {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public ObservableList<GameEntry> getFilteredGameEntryList() {
+        public ObservableList<Person> getFilteredPersonList() {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public void updateFilteredGameEntryList(Predicate<GameEntry> predicate) {
+        public void updateFilteredPersonList(Predicate<Person> predicate) {
             throw new AssertionError("This method should not be called.");
         }
     }
 
     /**
-     * A Model stub that contains a single game entry.
+     * A Model stub that contains a single person.
      */
-    private class ModelStubWithGameEntry extends ModelStub {
-        private final GameEntry gameEntry;
+    private class ModelStubWithPerson extends ModelStub {
+        private final Person person;
 
-        ModelStubWithGameEntry(GameEntry gameEntry) {
-            requireNonNull(gameEntry);
-            this.gameEntry = gameEntry;
+        ModelStubWithPerson(Person person) {
+            requireNonNull(person);
+            this.person = person;
         }
 
         @Override
-        public boolean hasGameEntry(GameEntry gameEntry) {
-            requireNonNull(gameEntry);
-            return this.gameEntry.isSameGameEntry(gameEntry);
+        public boolean hasPerson(Person person) {
+            requireNonNull(person);
+            return this.person.isSamePerson(person);
         }
     }
 
     /**
      * A Model stub that always accept the person being added.
      */
-    private class ModelStubAcceptingGameEntryAdded extends ModelStub {
-        final ArrayList<GameEntry> gameEntriesAdded = new ArrayList<>();
+    private class ModelStubAcceptingPersonAdded extends ModelStub {
+        final ArrayList<Person> personsAdded = new ArrayList<>();
 
         @Override
-        public boolean hasGameEntry(GameEntry gameEntry) {
-            requireNonNull(gameEntry);
-            return gameEntriesAdded.stream().anyMatch(gameEntry::isSameGameEntry);
+        public boolean hasPerson(Person person) {
+            requireNonNull(person);
+            return personsAdded.stream().anyMatch(person::isSamePerson);
         }
 
         @Override
-        public void addGameEntry(GameEntry gameEntry) {
-            requireNonNull(gameEntry);
-            gameEntriesAdded.add(gameEntry);
+        public void addPerson(Person person) {
+            requireNonNull(person);
+            personsAdded.add(person);
         }
 
         @Override
-        public ReadOnlyGameBook getGameBook() {
-            return new GameBook();
+        public ReadOnlyAddressBook getAddressBook() {
+            return new AddressBook();
         }
     }
 

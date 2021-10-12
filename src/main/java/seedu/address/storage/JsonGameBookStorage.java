@@ -4,7 +4,6 @@ import static java.util.Objects.requireNonNull;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.text.ParseException;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -54,7 +53,7 @@ public class JsonGameBookStorage implements GameBookStorage {
 
         try {
             return Optional.of(jsonGameBook.get().toModelType());
-        } catch (IllegalValueException | ParseException ive) {
+        } catch (IllegalValueException ive) {
             logger.info("Illegal values found in " + filePath + ": " + ive.getMessage());
             throw new DataConversionException(ive);
         }

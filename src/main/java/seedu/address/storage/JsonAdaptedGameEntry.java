@@ -1,7 +1,7 @@
 package seedu.address.storage;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -38,8 +38,7 @@ class JsonAdaptedGameEntry {
      * Constructs a {@code JsonAdaptedGameEntry} with the given game entry details.
      */
     @JsonCreator
-    public JsonAdaptedGameEntry(@JsonProperty("gameType") String gameType,
-                                @JsonProperty("startAmount") String startAmount,
+    public JsonAdaptedGameEntry(@JsonProperty("gameType") String gameType, @JsonProperty("startAmount") String startAmount,
             @JsonProperty("endAmount") String endAmount, @JsonProperty("date") String date,
                                 @JsonProperty("durationMinutes") String durationMinutes,
                                 @JsonProperty("location") String location,
@@ -59,7 +58,7 @@ class JsonAdaptedGameEntry {
      * Converts a given {@code GameEntry} into this class for Jackson use.
      */
     public JsonAdaptedGameEntry(GameEntry source) {
-        gameType = source.getGameType();
+        gameType = source.getGameType().toString();
         startAmount = String.valueOf(source.getStartAmount());
         endAmount = String.valueOf(source.getEndAmount());
         date = source.getDate().toString();
@@ -75,20 +74,19 @@ class JsonAdaptedGameEntry {
      *
      * @throws IllegalValueException if there were any data constraints violated in the adapted gameEntry.
      */
-    public GameEntry toModelType() throws IllegalValueException, ParseException {
+    public GameEntry toModelType() throws IllegalValueException {
         final List<Tag> gameEntryTags = new ArrayList<>();
         for (JsonAdaptedTag tag : tagged) {
             gameEntryTags.add(tag.toModelType());
         }
 
         if (gameType == null) {
-            throw new IllegalValueException(
-                    String.format(MISSING_FIELD_MESSAGE_FORMAT, GameType.class.getSimpleName()));
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, GameType.class.getSimpleName()));
         }
         // todo: add validation check for gameType and MESSAGE_CONSTRAINTS to GameType class; possible usage below
-        // if (!GameType.isValidGameType(gameType)) {
-        //     throw new IllegalValueException(GameType.MESSAGE_CONSTRAINTS);
-        // }
+//        if (!GameType.isValidGameType(gameType)) {
+//            throw new IllegalValueException(GameType.MESSAGE_CONSTRAINTS);
+//        }
         final GameType modelGameType = new GameType(gameType);
 
         if (startAmount == null) {
@@ -107,7 +105,10 @@ class JsonAdaptedGameEntry {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "date played"));
         }
         // todo: add input validation check for date
-        final DatePlayed modelDate = new DatePlayed(new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(date));
+//        final DatePlayed modelDate = new DatePlayed(new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(date));
+        final DatePlayed modelDate = null;
+
+
 
         if (durationMinutes == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "duration"));
@@ -122,8 +123,7 @@ class JsonAdaptedGameEntry {
         final Location modelLocation = new Location(location);
 
         final Set<Tag> modelTags = new HashSet<>(gameEntryTags);
-        return new GameEntry(modelGameType.toString(), modelStartAmount,
-                modelEndAmount, modelDate, modelDurationMinutes,
+        return new GameEntry(modelGameType.toString(), modelStartAmount, modelEndAmount, modelDate, modelDurationMinutes,
                 modelLocation.toString(), modelTags);
     }
 

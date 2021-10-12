@@ -1,6 +1,5 @@
 package seedu.address.model.gameentry;
 
-// import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.Collections;
@@ -46,29 +45,14 @@ public class GameEntry {
         }
     }
 
-    /**
-     * Gets the game type of this game entry.
-     *
-     * @return Game type.
-     */
     public String getGameType() {
         return gameType.toString();
     }
 
-    /**
-     * Gets the start amount of this game entry.
-     *
-     * @return Start amount.
-     */
     public Double getStartAmount() {
         return startAmount;
     }
 
-    /**
-     * Gets the end amount of this game entry.
-     *
-     * @return End amount.
-     */
     public Double getEndAmount() {
         return endAmount;
     }
@@ -114,23 +98,13 @@ public class GameEntry {
         return tags.contains(tag);
     }
 
-    /**
-     * Returns true if {@code otherGameEntry} is considered the same.
-     *
-     * @param otherGameEntry Other object to compare with.
-     * @return Whether the objects are considered the same.
-     */
-
-    // TODO - might remove if we are not checking for identical game entries
     public boolean isSameGameEntry(GameEntry otherGameEntry) {
-        if (otherGameEntry == null) {
-            return false;
+        if (this == otherGameEntry || this.equals(otherGameEntry)) {
+            return true;
         }
-        return equals(otherGameEntry)
-                || (gameType.equals(otherGameEntry.gameType)
-                        && date.getIsTimeIndicated()
-                        && otherGameEntry.date.getIsTimeIndicated()
-                        && date.equals(otherGameEntry.date));
+        return otherGameEntry != null
+                && otherGameEntry.getGameType().equals(getGameType())
+                && otherGameEntry.getDate().equals(getDate());
     }
 
     @Override
@@ -139,12 +113,10 @@ public class GameEntry {
             return true;
         } else if (other instanceof GameEntry) {
             GameEntry tmp = (GameEntry) other;
-            // If either game entry does not have minute field indicated in date, then they will
-            // not be considered as equal
             return gameType.equals(tmp.gameType)
                     && startAmount.equals(tmp.startAmount)
                     && endAmount.equals(tmp.endAmount)
-                    && (date.getIsTimeIndicated() && tmp.date.getIsTimeIndicated() && date.equals(tmp.date))
+                    && date.equals(date)
                     && durationMinutes.equals(tmp.durationMinutes)
                     && location.equals(tmp.location)
                     && tags.equals(tmp.tags);
@@ -169,10 +141,10 @@ public class GameEntry {
             output += "; Game duration: " + durationMinutes.toString();
         }
         if (!location.equals("")) {
-            output += "; Location: " + location;
+            output += "; location: " + location;
         }
         if (tags.size() > 0) {
-            output += "; Tags: " + tags.toString();
+            output += "; tags: " + tags.toString();
         }
         return output;
     }
